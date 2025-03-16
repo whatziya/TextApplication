@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "755525842365",
+    "project_id": "text-application-34851",
+    "storage_bucket": "text-application-34851.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:755525842365:android:c59c8af000454722cd0ed4",
+        "android_client_info": {
+          "package_name": "com.whatziya.textapplication"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAvEmZ45iIK-2SBuJViYsdGXpXNGB95phA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
