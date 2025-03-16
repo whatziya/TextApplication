@@ -2,6 +2,7 @@ package com.whatziya.textapplication.fragments.signin
 
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.whatziya.textapplication.R
 import com.whatziya.textapplication.SharedViewModel
@@ -34,5 +35,11 @@ class SignInFragment : BaseFragment(R.layout.fragment_signin) {
 
     override fun setup() {
 
+    }
+
+    override fun clicks() = with(binding){
+        textCreateNewAccount.setOnClickListener {
+            findNavController().navigate(R.id.action_signInFragment_to_signUpFragment)
+        }
     }
 }
