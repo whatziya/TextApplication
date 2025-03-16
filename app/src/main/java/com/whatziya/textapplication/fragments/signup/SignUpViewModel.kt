@@ -31,8 +31,8 @@ class SignUpViewModel(
     private val _error = MutableLiveData<String>()
     val error: LiveData<String> = _error
 
-    fun signUp(inputName: String, inputEmail: String, inputPassword: String){
-        _loading.value = true;
+    fun signUp(inputName: String, inputEmail: String, inputPassword: String) {
+        _loading.postValue(true)
         val user = hashMapOf(
             Constants.KEY_NAME to inputName,
             Constants.KEY_EMAIL to inputEmail,
@@ -42,17 +42,16 @@ class SignUpViewModel(
         database.collection(Constants.KEY_COLLECTION_USERS)
             .add(user)
             .addOnSuccessListener { documentReference ->
-                _loading.value = false
                 preferenceProvider.isSignedIn = true
                 preferenceProvider.userId = documentReference.id
                 preferenceProvider.name = inputName
-                preferenceProvider.image = _encodedImage.value.toString()
-                _pass.value = true
+                preferenceProvider.image = _encodedImage.value ?: ""
+                _pass.postValue(true)
             }
             .addOnFailureListener {
-                _loading.value = false
-                _error.value = it.message
+                _error.postValue(it.localizedMessage)
             }
+            .addOnCompleteListener { _loading.postValue(false) }
     }
 
     fun encodeImage(bitmap: Bitmap) {
@@ -62,24 +61,32 @@ class SignUpViewModel(
 
         ByteArrayOutputStream().use { outputStream ->
             previewBitmap.compress(Bitmap.CompressFormat.JPEG, 80, outputStream)
-            val bytes = outputStream.toByteArray()
-            _encodedImage.value = Base64.encodeToString(bytes, Base64.NO_WRAP)
+            _encodedImage.postValue(
+                Base64.encodeToString(
+                    outputStream.toByteArray(),
+                    Base64.NO_WRAP
+                )
+            )
         }
     }
 
-
-    fun isValidSignUpDetails(name: String, email: String, password: String, confirmPassword: String): Int {
+    fun isValidSignUpDetails(
+        name: String,
+        email: String,
+        password: String,
+        confirmPassword: String
+    ): Int {
         val result = when {
             _encodedImage.value == null -> 0
-            name.trim().isEmpty() -> 1
-            email.trim().isEmpty() -> 2
+            name.isBlank() -> 1
+            email.isBlank() -> 2
             !Patterns.EMAIL_ADDRESS.matcher(email).matches() -> 3
-            password.trim().isEmpty() -> 4
-            confirmPassword.trim().isEmpty() -> 5
+            password.isBlank() -> 4
+            confirmPassword.isBlank() -> 5
             password != confirmPassword -> 6
             else -> -1
         }
-        _validationResult.value = result
+        _validationResult.postValue(result)
         return result
     }
 }
