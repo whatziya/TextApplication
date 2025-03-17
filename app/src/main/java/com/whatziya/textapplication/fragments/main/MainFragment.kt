@@ -2,6 +2,7 @@ package com.whatziya.textapplication.fragments.main
 
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.whatziya.textapplication.R
 import com.whatziya.textapplication.SharedViewModel
@@ -41,6 +42,9 @@ class MainFragment : BaseFragment(R.layout.fragment_main) {
 
     override fun clicks() = with(binding) {
         imageSignout.setOnClickListener { viewModel.signOut() }
+        fabNewChat.setOnClickListener {
+            findNavController().navigate(R.id.action_mainFragment_to_usersFragment)
+        }
     }
 
     override fun observe() = with(viewModel) {
