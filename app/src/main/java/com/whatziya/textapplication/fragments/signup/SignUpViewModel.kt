@@ -50,8 +50,8 @@ class SignUpViewModel(
             }
             .addOnFailureListener {
                 _error.postValue(it.localizedMessage)
+                _loading.postValue(false)
             }
-            .addOnCompleteListener { _loading.postValue(false) }
     }
 
     fun encodeImage(bitmap: Bitmap) {
