@@ -1,18 +1,18 @@
 package com.whatziya.textapplication.fragments.users
 
+import android.os.Bundle
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.whatziya.textapplication.R
 import com.whatziya.textapplication.adapters.UsersAdapter
 import com.whatziya.textapplication.databinding.FragmentUsersBinding
-import com.whatziya.textapplication.extensions.gone
-import com.whatziya.textapplication.extensions.visible
 import com.whatziya.textapplication.extensions.visibleIf
 import com.whatziya.textapplication.fragments.BaseFragment
 import com.whatziya.textapplication.fragments.factory.ViewModelFactory
 import com.whatziya.textapplication.preferences.PreferenceProvider
 import com.whatziya.textapplication.preferences.SharedPreferencesHelper
+import com.whatziya.textapplication.utilities.Constants
 
 class UsersFragment : BaseFragment(R.layout.fragment_users) {
     private val binding by viewBinding(FragmentUsersBinding::bind)
@@ -26,7 +26,13 @@ class UsersFragment : BaseFragment(R.layout.fragment_users) {
         )
     }
 
-    private val adapter by lazy { UsersAdapter() }
+    private val adapter by lazy {
+        UsersAdapter {
+            val bundle = Bundle()
+            bundle.putParcelable(Constants.KEY_USER, it)
+            findNavController().navigate(R.id.action_usersFragment_to_chatFragment, bundle)
+        }
+    }
 
     override fun setup() = with(binding) {
         userRecyclerView.adapter = adapter

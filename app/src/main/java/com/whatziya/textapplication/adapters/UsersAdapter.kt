@@ -12,7 +12,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.whatziya.textapplication.databinding.ItemContainerUserBinding
 import com.whatziya.textapplication.models.User
 
-class UsersAdapter : ListAdapter<User, UsersAdapter.UserViewHolder>(diffUtil) {
+class UsersAdapter(
+    private val onClick: (User) -> Unit
+) : ListAdapter<User, UsersAdapter.UserViewHolder>(diffUtil) {
     companion object {
         val diffUtil = object : DiffUtil.ItemCallback<User>() {
             override fun areItemsTheSame(oldItem: User, newItem: User): Boolean {
@@ -40,6 +42,7 @@ class UsersAdapter : ListAdapter<User, UsersAdapter.UserViewHolder>(diffUtil) {
                 decodedImages[user.image] = bitmap
                 imageProfile.setImageBitmap(bitmap)
             }
+            root.setOnClickListener { onClick(user) }
         }
     }
 
