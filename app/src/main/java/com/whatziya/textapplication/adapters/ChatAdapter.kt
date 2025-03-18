@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.whatziya.textapplication.databinding.ItemContainerReceivedMessageBinding
 import com.whatziya.textapplication.databinding.ItemContainerSentMessageBinding
 import com.whatziya.textapplication.models.ChatMessage
+import androidx.core.graphics.createBitmap
 
 class ChatAdapter(
     private val receiverProfileImage: String,
@@ -22,7 +23,7 @@ class ChatAdapter(
         const val VIEW_TYPE_RECEIVED = 2
         val diffUtil = object : DiffUtil.ItemCallback<ChatMessage>() {
             override fun areItemsTheSame(oldItem: ChatMessage, newItem: ChatMessage): Boolean {
-                return oldItem.senderId == newItem.senderId || oldItem.receiverId == newItem.receiverId
+                return oldItem == newItem
             }
 
             override fun areContentsTheSame(oldItem: ChatMessage, newItem: ChatMessage): Boolean {
@@ -79,13 +80,13 @@ class ChatAdapter(
         return try {
             val bytes = Base64.decode(encodedImage, Base64.NO_WRAP)
             BitmapFactory.decodeByteArray(bytes, 0, bytes.size) ?: getDefaultBitmap()
-        } catch (e: IllegalArgumentException) {
+        } catch (_: IllegalArgumentException) {
             getDefaultBitmap()
         }
     }
 
     private fun getDefaultBitmap(): Bitmap {
-        return Bitmap.createBitmap(150, 150, Bitmap.Config.ARGB_8888).apply {
+        return createBitmap(150, 150).apply {
             eraseColor(Color.GRAY)
         }
     }

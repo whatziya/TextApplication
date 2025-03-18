@@ -11,6 +11,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.messaging.FirebaseMessaging
 import com.whatziya.textapplication.preferences.PreferenceProvider
 import com.whatziya.textapplication.utilities.Constants
+import androidx.core.graphics.createBitmap
 
 class MainViewModel(
     private val preferenceProvider: PreferenceProvider
@@ -56,7 +57,7 @@ class MainViewModel(
     }
 
     private fun getDefaultBitmap(): Bitmap {
-        return Bitmap.createBitmap(150, 150, Bitmap.Config.ARGB_8888).apply {
+        return createBitmap(150, 150).apply {
             eraseColor(Color.GRAY)
         }
     }

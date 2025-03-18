@@ -10,6 +10,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.whatziya.textapplication.preferences.PreferenceProvider
 import com.whatziya.textapplication.utilities.Constants
 import java.io.ByteArrayOutputStream
+import androidx.core.graphics.scale
 
 class SignUpViewModel(
     private val preferenceProvider: PreferenceProvider
@@ -20,7 +21,6 @@ class SignUpViewModel(
     val validationResult: LiveData<Int> = _validationResult
 
     private val _encodedImage = MutableLiveData<String>()
-    val encodedImage: LiveData<String> = _encodedImage
 
     private val _loading = MutableLiveData<Boolean>()
     val loading: LiveData<Boolean> = _loading
@@ -57,7 +57,7 @@ class SignUpViewModel(
     fun encodeImage(bitmap: Bitmap) {
         val previewWidth = 150
         val previewHeight = (bitmap.height * previewWidth) / bitmap.width
-        val previewBitmap = Bitmap.createScaledBitmap(bitmap, previewWidth, previewHeight, false)
+        val previewBitmap = bitmap.scale(previewWidth, previewHeight, false)
 
         ByteArrayOutputStream().use { outputStream ->
             previewBitmap.compress(Bitmap.CompressFormat.JPEG, 80, outputStream)

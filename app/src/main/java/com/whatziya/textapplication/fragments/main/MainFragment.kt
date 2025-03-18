@@ -18,11 +18,7 @@ class MainFragment : BaseFragment(R.layout.fragment_main) {
     private val binding by viewBinding(FragmentMainBinding::bind)
     private val viewModel: MainViewModel by viewModels {
         ViewModelFactory(
-            PreferenceProvider(
-                SharedPreferencesHelper.provideSharedPreferences(
-                    requireContext()
-                )
-            )
+            providePreferences()
         )
     }
 
@@ -62,5 +58,11 @@ class MainFragment : BaseFragment(R.layout.fragment_main) {
                 sharedVm.setNavGraphEvent(NavGraphEvent.Login)
             }
         }
+    }
+
+    private fun providePreferences(): PreferenceProvider {
+        return PreferenceProvider(
+            SharedPreferencesHelper.provideSharedPreferences(requireContext())
+        )
     }
 }

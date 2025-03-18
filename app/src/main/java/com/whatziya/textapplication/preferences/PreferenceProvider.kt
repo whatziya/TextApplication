@@ -1,6 +1,7 @@
 package com.whatziya.textapplication.preferences
 
 import android.content.SharedPreferences
+import androidx.core.content.edit
 
 class PreferenceProvider(private val preferences: SharedPreferences) {
     var isSignedIn: Boolean by preferences.boolean()
@@ -9,6 +10,6 @@ class PreferenceProvider(private val preferences: SharedPreferences) {
     var image: String by preferences.string()
 
     fun clear(){
-        preferences.edit().clear().apply()
+        preferences.edit() { clear() }
     }
 }

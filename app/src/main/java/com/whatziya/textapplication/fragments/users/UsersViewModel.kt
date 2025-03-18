@@ -38,6 +38,7 @@ class UsersViewModel(
                             email = document.getString(Constants.KEY_EMAIL) ?: "",
                             image = document.getString(Constants.KEY_IMAGE) ?: "",
                             token = document.getString(Constants.KEY_FCM_TOKEN) ?: "",
+                            id = document.id
                         )
                     }
 

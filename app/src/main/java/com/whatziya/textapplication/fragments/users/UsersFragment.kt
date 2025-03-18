@@ -18,11 +18,7 @@ class UsersFragment : BaseFragment(R.layout.fragment_users) {
     private val binding by viewBinding(FragmentUsersBinding::bind)
     private val viewModel: UsersViewModel by viewModels {
         ViewModelFactory(
-            PreferenceProvider(
-                SharedPreferencesHelper.provideSharedPreferences(
-                    requireContext()
-                )
-            )
+            providePreferences()
         )
     }
 
@@ -55,5 +51,11 @@ class UsersFragment : BaseFragment(R.layout.fragment_users) {
                 binding.textErrorMessage.text = getString(R.string.no_user_available)
             }
         }
+    }
+
+    private fun providePreferences(): PreferenceProvider {
+        return PreferenceProvider(
+            SharedPreferencesHelper.provideSharedPreferences(requireContext())
+        )
     }
 }

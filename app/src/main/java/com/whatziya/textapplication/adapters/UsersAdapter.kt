@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.whatziya.textapplication.databinding.ItemContainerUserBinding
 import com.whatziya.textapplication.models.User
+import androidx.core.graphics.createBitmap
 
 class UsersAdapter(
     private val onClick: (User) -> Unit
@@ -18,7 +19,7 @@ class UsersAdapter(
     companion object {
         val diffUtil = object : DiffUtil.ItemCallback<User>() {
             override fun areItemsTheSame(oldItem: User, newItem: User): Boolean {
-                return oldItem.email == newItem.email
+                return oldItem.id == newItem.id
             }
 
             override fun areContentsTheSame(oldItem: User, newItem: User): Boolean {
@@ -54,14 +55,14 @@ class UsersAdapter(
         return try {
             val bytes = Base64.decode(encodedImage, Base64.NO_WRAP)
             BitmapFactory.decodeByteArray(bytes, 0, bytes.size) ?: getDefaultBitmap()
-        } catch (e: IllegalArgumentException) {
+        } catch (_: IllegalArgumentException) {
             getDefaultBitmap()
         }
     }
 
 
     private fun getDefaultBitmap(): Bitmap {
-        return Bitmap.createBitmap(150, 150, Bitmap.Config.ARGB_8888).apply {
+        return createBitmap(150, 150).apply {
             eraseColor(Color.GRAY)
         }
     }

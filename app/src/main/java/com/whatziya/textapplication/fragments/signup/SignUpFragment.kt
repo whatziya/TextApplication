@@ -24,20 +24,12 @@ class SignUpFragment : BaseFragment(R.layout.fragment_signup) {
     private val binding by viewBinding(FragmentSignupBinding::bind)
     private val viewModel: SignUpViewModel by viewModels {
         ViewModelFactory(
-            PreferenceProvider(
-                SharedPreferencesHelper.provideSharedPreferences(
-                    requireContext()
-                )
-            )
+            providePreferences()
         )
     }
     private val sharedVm: SharedViewModel by activityViewModels {
         ViewModelFactory(
-            PreferenceProvider(
-                SharedPreferencesHelper.provideSharedPreferences(
-                    requireContext()
-                )
-            )
+            providePreferences()
         )
     }
 
@@ -112,5 +104,11 @@ class SignUpFragment : BaseFragment(R.layout.fragment_signup) {
                 sharedVm.setNavGraphEvent(NavGraphEvent.Main)
             }
         }
+    }
+
+    private fun providePreferences(): PreferenceProvider {
+        return PreferenceProvider(
+            SharedPreferencesHelper.provideSharedPreferences(requireContext())
+        )
     }
 }

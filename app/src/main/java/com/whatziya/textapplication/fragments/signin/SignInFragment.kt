@@ -19,20 +19,12 @@ class SignInFragment : BaseFragment(R.layout.fragment_signin) {
     private val binding by viewBinding(FragmentSigninBinding::bind)
     private val viewModel: SignInViewModel by viewModels {
         ViewModelFactory(
-            PreferenceProvider(
-                SharedPreferencesHelper.provideSharedPreferences(
-                    requireContext()
-                )
-            )
+            providePreferences()
         )
     }
     private val sharedVm: SharedViewModel by activityViewModels {
         ViewModelFactory(
-            PreferenceProvider(
-                SharedPreferencesHelper.provideSharedPreferences(
-                    requireContext()
-                )
-            )
+            providePreferences()
         )
     }
 
@@ -73,5 +65,11 @@ class SignInFragment : BaseFragment(R.layout.fragment_signin) {
         error.observe(viewLifecycleOwner){
             toast(it)
         }
+    }
+
+    private fun providePreferences(): PreferenceProvider {
+        return PreferenceProvider(
+            SharedPreferencesHelper.provideSharedPreferences(requireContext())
+        )
     }
 }
